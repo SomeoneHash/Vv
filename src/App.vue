@@ -2,8 +2,8 @@
   <div>
     <Header></Header>
     <div class="container">
-      <Add :addComment='comment'></Add>
-      <List :comments='comments'></List>
+      <Add :addComment='addComment'></Add>
+      <List :comments='comments' :deleteComment='deleteComment'></List>
     </div>
   </div>
 </template>
@@ -32,6 +32,9 @@
     methods:{
       addComment(comment){
         this.comments.unshift(comment)
+      },
+      deleteComment(index){
+        this.comments.splice(index,1)
       }
     }
   }
