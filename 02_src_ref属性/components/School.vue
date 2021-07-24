@@ -1,19 +1,19 @@
 <template>
   <div class="demo">
-    <h2>学生名称：{{name}}</h2>
-    <h2>学生年龄：{{age}}</h2>
+    <h2>学校名称：{{name}}</h2>
+    <h2>学校地址：{{adress}}</h2>
   </div>
 </template>
 
 <script>
   export default {
-    name:'Student',
+    name:'School',
     data(){
-      return{
-        name:'张三',
-        age:'18'
+      return {
+        name:'清华',
+        adress:'北京'
       }
-    },
+    }
   }
 </script>
 
