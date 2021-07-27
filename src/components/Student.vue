@@ -27,7 +27,8 @@ export default {
     getStudentName(){
       //触发Student组件身上的haha事件
       this.$emit('haha',this.name,666,888,999)
-      this.$emit('demo')
+      // this.$emit('demo')
+      this.$emit('show')
     },
     unbind(){
       // this.$off('haha') // 解绑一个自定义事件

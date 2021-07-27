@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <h1 class="title">{{msg}}~</h1>
+    <h1 class="title">{{msg}}~,学生姓名是：</h1>
 
     <!-- 通过父组件给子组件传递函数类型的props实现：子给父传数据 -->
     <School :getSchoolName='getSchoolName'/>
@@ -10,7 +10,7 @@
     <Student @haha="getStudentName" @demo='m1'/>
 
     <!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传数据(第二种写法，使用ref) -->
-    <!-- <Student ref="student"/> -->
+    <Student ref="student" @click.native='show'/>
   </div>
 </template>
 
@@ -24,7 +24,8 @@ export default {
   conponents:{School,Student},
   data() {
     return {
-      msg:'你好啊~'
+      msg:'你好啊~',
+      studentName:''
     }
   },
   methods:{
@@ -33,11 +34,24 @@ export default {
     },
     getStudentName(name,...params){
       console.log("App收到了学生名",name,params)
+      this.studentName = name
+    },
+    m1(){
+      console.log('demo事件被触发了~');
+    },
+    show(){
+      alert(123)
     }
   },
   mounted(){
     // this.$refs.student.$once('haha',this.getStudentName)
     this.$refs.student.$on('haha',this.getStudentName)
+
+    // this.$refs.student.$on('haha',(name,...params)=>{
+    //   console.log("App收到了学生名",name,params)
+    //   this.studentName = name
+    // })
+
     // setTimeout(()=>{
     //   this.$refs.student.$on('haha',this.getStudentName)
     // },3000)
