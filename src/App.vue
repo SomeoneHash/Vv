@@ -1,116 +1,53 @@
 <template>
-  <div class="todo-container">
-    <div class="todo-wrap">
-      <myHeader :addTodo='addTodo'/>
-      <myList
-       :todos='todos'
-       :checkTodo='checkTodo'
-       :deleteTodo='deleteTodo'
-       />
-      <myFooter
-        :todos="todos"
-        :checkAllTodo="checkAllTodo"
-        :clearAllTodo='clearAllTodo'
-      />
-    </div>
+  <div class="app">
+    <h1 class="title">{{msg}}~</h1>
+
+    <!-- 通过父组件给子组件传递函数类型的props实现：子给父传数据 -->
+    <School :getSchoolName='getSchoolName'/>
+
+    <!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传数据(第一种写法，使用@或v-on) -->
+    <!-- <Student v-on:haha="getStudentName"/> -->
+    <Student @haha="getStudentName" @demo='m1'/>
+
+    <!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传数据(第二种写法，使用ref) -->
+    <!-- <Student ref="student"/> -->
   </div>
 </template>
 
 <script>
-  import myHeader from './components/myHeader.vue'
-  import myList from './components/myList.vue'
-  import myFooter from './components/myFooter.vue'
+  
+import School from './components/School.vue'
+import Student from './components/Student.vue'
 
-  
-  export default {
-    name:'App',
-    components: { myHeader,myList,myFooter },
-    data() {
-      return {
-        todos:[
-          { id:'001', title:'唱', isDone:false},
-          { id:'002', title:'跳', isDone:false},
-          { id:'003', title:'rap', isDone:false},
-          { id:'004', title:'篮球', isDone:true},
-        ]
-      }
-    },
-    methods:{
-      //添加一个todo
-      addTodo(todoObj){
-        this.todos.unshift(todoObj)
-      },
-      //勾选or取消勾选一个todo
-      checkTodo(id){
-        this.todos.forEach((todo)=>{
-          if(todo.id === id)  todo.isDone = !todo.isDone
-        })
-      },
-      //删除一个todo
-      deleteTodo(id){
-        this.todos = this.todos.filter (todo => todo.id !== id)
-      },
-      //全选or取消全选
-      checkAllTodo(isDone){
-        this.todos.forEach((todo)=>{
-          todo.isDone = isDone
-        })
-      },
-      //清除所有已经完成的todo
-      clearAllTodo(){
-        this.todos = this.todos.filter((todo)=>{
-          return !todo.isDone
-        })
-      }
+export default {
+  name:'App',
+  conponents:{School,Student},
+  data() {
+    return {
+      msg:'你好啊~'
     }
-  }
-  
+  },
+  methods:{
+    getSchoolName(name){
+      console.log('App收到了学校名',name)
+    },
+    getStudentName(name,...params){
+      console.log("App收到了学生名",name,params)
+    }
+  },
+  mounted(){
+    // this.$refs.student.$once('haha',this.getStudentName)
+    this.$refs.student.$on('haha',this.getStudentName)
+    // setTimeout(()=>{
+    //   this.$refs.student.$on('haha',this.getStudentName)
+    // },3000)
+  },
+}
 </script>
 
 <style>
-/*base*/
-body {
-  background: #fff;
+.app{
+  background-color: blueviolet;
+  padding: 5px;
 }
-
-.btn {
-  display: inline-block;
-  padding: 4px 12px;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-}
-
-.btn-danger {
-  color: #fff;
-  background-color: #da4f49;
-  border: 1px solid #bd362f;
-}
-
-.btn-danger:hover {
-  color: #fff;
-  background-color: #bd362f;
-}
-
-.btn:focus {
-  outline: none;
-}
-
-
-/*app*/
-.todo-container {
-  width: 600px;
-  margin: 0 auto;
-}
-.todo-container .todo-wrap {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
 </style>
